@@ -21,7 +21,6 @@
         port: null
 
         constructor: ->
-          @accessToken = localStorage.getItem('accessToken')
 
           @port = chrome.extension.connect name: 'connection'
 
@@ -32,6 +31,7 @@
 
         fetch: (port = null) ->
           @totalPR = 0
+          @accessToken = localStorage.getItem('accessToken')
           @repositories = JSON.parse(localStorage.getItem('repositories'))
 
           dfds = []

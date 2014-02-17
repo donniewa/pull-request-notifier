@@ -1,0 +1,89 @@
+body {
+  background: white;
+  font: 400 14px Helvetica,Arial,sans-serif;
+  padding: 0;
+  margin: 0;
+  width: 400px;
+  min-height: 450px;
+}
+
+header {
+  background-color: #f3f3f3;
+  background-image: linear-gradient(#f9f9f9, #f3f3f3);
+  background-repeat: repeat-x;
+}
+
+header section {
+  padding: 10px;
+}
+
+h1 {
+  font-weight: 100;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  margin-left: 5px;
+}
+
+h1, img {
+  vertical-align: middle;
+}
+
+.version {
+  vertical-align: top;
+  display: inline-block;
+  font-size: 8px;
+  opacity: 0.6;
+}
+
+a {
+  color: #4183c4;
+  outline: none;
+}
+
+#repositories {
+  list-style: none;
+  padding: 0 10px;
+}
+
+.prs {
+  padding-left: 20px;
+}
+
+.pr p {
+  padding: 0 0 5px 0;
+  margin: 0;
+  color: #999;
+  font-size: 10px;
+}
+.pr a {
+  color: #333;
+  text-decoration: none;
+}
+.pr .pr-link {
+  color: #000;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.hide {
+  cursor: pointer;
+}
+.hide:hover {
+  text-decoration: underline;
+}
+
+.welcome {
+  display: none;
+}
+
+.add-repo {
+  display: none;
+}
+
+#repositories .remove {
+  color: #ccc;
+  margin-left: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}

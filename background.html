@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="underscore-min.js"></script>
+    <script type="text/javascript" src="coffee-script.js"></script>
+    <script type="text/coffeescript">
+
+      $.ajaxSetup
+        crossDomain: true
+        dataType: 'json'
+
+      class Fetcher
+
+        totalPR: 0
+
+        accessToken: null
+
+        repositories: []
+
+        port: null
+
+        constructor: ->
+          @accessToken = localStorage.getItem('accessToken')
+
+          @port = chrome.extension.connect name: 'connection'
+
+          chrome.extension.onConnect.addListener (port) =>
+            port.onMessage.addListener (msg) =>
+              console.log msg
+              @fetch(port) if msg.refresh?
+
+        fetch: (port = null) ->
+          @totalPR = 0
+          @repositories = JSON.parse(localStorage.getItem('repositories'))
+
+          dfds = []
+          _(@repositories).each (repo) =>
+            dfds.push $.ajax
+              type: 'get'
+              url: "https://api.github.com/repos/#{repo}/pulls?access_token=#{@accessToken}"
+              success: (data) =>
+                @store(repo, data)
+              error: =>
+                debugger
+
+          $.when.apply($, dfds).done =>
+            if port
+              port.postMessage success: true
+
+        store: (repo, data) ->
+          repos = JSON.parse(localStorage.getItem('repos')) or {}
+          repos[repo] = data
+          localStorage.setItem('repos', JSON.stringify(repos))
+          @totalPR += data.length
+          @updateBadge()
+
+        updateBadge: =>
+          if @totalPR > 0
+            chrome.browserAction.setBadgeText text: "#{@totalPR}"
+          else
+            chrome.browserAction.setBadgeText text: ''
+
+      fetcher = new Fetcher
+      fetcher.fetch()
+
+      interval = localStorage.getItem('refreshRate') or 600000
+      setInterval ->
+        fetcher.fetch()
+      , interval
+
+    </script>
+  </head>
+</html>

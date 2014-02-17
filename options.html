@@ -1,0 +1,33 @@
+<html>
+<head>
+  <title>Showtime!</title>
+  <style>
+    body {
+      background-color: #00aced;
+      color: #fff;
+      font-family: Helvetica Neue, Helvetica;
+    }
+    small {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+    <h1>Pull Request Monitor</h1>
+    <small>Yeah baby!</small>
+    <p>
+      <label for="access-token">Personal access token</label>
+      <input type="text" name="access-token" id="access-token"/>
+    </p>
+    <p>
+      <label for="refresh-rate">Refresh rate (mins)</label>
+      <input type="text" name="refresh-rate" id="refresh-rate" placeholder="10"/>
+    </p>
+    <button class="save">Save</button>
+    <p class="status"></p>
+  </section>
+</body>
+<script src="options.js"></script>
+</html>

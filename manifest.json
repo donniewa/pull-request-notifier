@@ -1,0 +1,23 @@
+{
+  "name": "Pull Request Notifier",
+  "description": "Keep track of the Pull Requests of your favorite repositories <3",
+  "version": "0.1",
+  "icons": { "16": "github-120.png",
+           "48": "github-120.png",
+          "128": "github-120.png" },
+  "permissions": [
+    "tabs", "http://*.github.com/*"
+  ],
+  "browser_action": {
+      "default_title": "View your Pull Requests",
+      "default_icon": "github-120.png",
+      "default_popup": "popup.html"
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "manifest_version": 2,
+  "options_page": "options.html",
+  "background": {
+    "page": "background.html",
+    "persistent": true
+  }
+}

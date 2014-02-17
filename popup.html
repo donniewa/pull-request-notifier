@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script type="text/html" id="repository-row">
+    <li data-id="{{name}}">
+        <p>
+          <a href="https://github.com/{{name}}" target="_blank">{{name}}</a><span class="remove">x</span>
+        </p>
+        <ul class="prs">{{pullRequests}}</ul>
+      </li>
+    </script>
+    <script type="text/html" id="pull-request-row">
+      <li class="pr" data-id="{{id}}">
+        <p><a href="{{html_url}}" target="_blank" class="pr-link">{{title}}</a></p>
+        <p>by <a href="">{{user}}</a> {{created_at}} <span class="hide">x</span></p>
+      </li>
+    </script>
+    <script src="jquery-2.0.3.min.js"></script>
+    <script src="coffee-script.js"></script>
+    <script src="underscore-min.js"></script>
+    <script type="text/coffeescript" src="app.coffee"></script>
+  </head>
+  <body>
+    <header>
+      <section>
+        <a href="https://github.com" target="_blank"><img src="github-120.png" width="32" height="32"/></a>
+        <h1>Pull Request Notifier</h1>
+        <p class="version"></p>
+      </section>
+    </header>
+    <div class="add-repo">
+      Do you want to start tracking <span class="title"></span>?
+      <button class="add">Yes</button>
+    </div>
+    <ul id="repositories"></ul>
+    <div class="welcome">
+      <p>Welcome to PR Monitor!</p>
+      <p>Please enter your <a href="https://github.com/settings/applications" target="_blank">personal access token</a> below to get started</p>
+      <p>
+        <label for="access-token">Personal access token</label>
+        <input type="text" name="access-token" id="access-token"/>
+        <input type="submit" value="Save" class="save-token" />
+      </p>
+    </div>
+  </body>
+</html>

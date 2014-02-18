@@ -12,13 +12,15 @@
     </script>
     <script type="text/html" id="pull-request-row">
       <li class="pr" data-id="{{id}}">
+        <p class="avatar"><a href="user_url" target="_blank"><img src="{{user_avatar}}"/></a></p>
         <p><a href="{{html_url}}" target="_blank" class="pr-link">{{title}}</a></p>
-        <p>by <a href="">{{user}}</a> {{created_at}} <span class="hide">x</span></p>
+        <p>{{created_at}} <span class="hide">x</span></p>
       </li>
     </script>
     <script src="jquery-2.0.3.min.js"></script>
     <script src="coffee-script.js"></script>
     <script src="underscore-min.js"></script>
+    <script src="moment.min.js"></script>
     <script type="text/coffeescript" src="app.coffee"></script>
   </head>
   <body>
@@ -29,19 +31,21 @@
         <p class="version"></p>
       </section>
     </header>
-    <div class="add-repo">
-      Do you want to start tracking <span class="title"></span>?
+    <p class="add-repo">
+      Add <span class="title"></span>?
       <button class="add">Yes</button>
-    </div>
+    </p>
     <ul id="repositories"></ul>
+    <p class='empty'>Please add your favorite repositories!</p>
+    <p class='empty'>Just click on this popup under your repo's github page.</p>
     <div class="welcome">
-      <p>Welcome to PR Monitor!</p>
-      <p>Please enter your <a href="https://github.com/settings/applications" target="_blank">personal access token</a> below to get started</p>
+      <p>Welcome stranger!</p>
+      <p>Please enter your <a href="https://github.com/settings/applications" target="_blank">personal access token</a> below to get started:</p>
       <p>
-        <label for="access-token">Personal access token</label>
-        <input type="text" name="access-token" id="access-token"/>
+        <input type="text" name="access-token" id="access-token" placeholder="Personal Access Token"/>
         <input type="submit" value="Save" class="save-token" />
       </p>
+      <small>ps. Your token is needed for accessing the Github API. It will not be shared! You can <a href="https://github.com/nuc-gr/pull-request-notifier" target="_blank">check the source code</a> if you're suspicious (you should!).</small>
     </div>
   </body>
 </html>

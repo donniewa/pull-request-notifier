@@ -51,6 +51,7 @@ class GithubMon
 
   populateRepoList: ->
     if @repositories.length > 0
+      $('.empty').hide()
       html = _(@repositoryJSON).map (pullRequests, repo) =>
         pullRequests = _(pullRequests).filter (pr) =>
           not _(@hiddenPRs).contains pr.id
@@ -61,17 +62,19 @@ class GithubMon
               title: pr.title
               html_url: pr.html_url
               user: pr.user.login
-              created_at: pr.created_at
+              user_avatar: pr.user.avatar_url
+              user_url: pr.user.url
+              created_at: moment.utc(pr.created_at).fromNow()
         else
           pullRequestsHTML = ["<li><p>No PR's</p></li>"]
 
         _.template @repositoryTemplate,
           name: repo
           pullRequests: pullRequestsHTML.join('')
+      $('#repositories').html html.join('')
     else
-      html = ["Add your favorite repositories. In order to do so, just visit the github page of your repo, and launch this popup again!"]
-
-    $('#repositories').html html.join('')
+      $('#repositories').html('')
+      $('.empty').show()
 
   bindEvents: =>
     $('.hide').on 'click', @hidePR

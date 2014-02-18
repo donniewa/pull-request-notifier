@@ -63,7 +63,7 @@ class GithubMon
               html_url: pr.html_url
               user: pr.user.login
               user_avatar: pr.user.avatar_url
-              user_url: pr.user.url
+              user_url: pr.user.html_url
               created_at: moment.utc(pr.created_at).fromNow()
         else
           pullRequestsHTML = ["<li><p>No PR's</p></li>"]

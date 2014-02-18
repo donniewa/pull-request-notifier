@@ -45,6 +45,18 @@
                 debugger
 
           $.when.apply($, dfds).done =>
+            repos = JSON.parse(localStorage.getItem('repos')) or {}
+            hiddenPRs = JSON.parse(localStorage.getItem('hiddenPRs')) or []
+
+            totalPR = _(repos).reduce (prev, prs) ->
+              filtered = _(prs).filter (pr) -> not _(hiddenPRs).contains pr.id
+              prev + filtered.length
+            , 0
+
+            if totalPR > 0
+              chrome.browserAction.setBadgeText text: "#{totalPR}"
+            else
+              chrome.browserAction.setBadgeText text: ''
             if port
               port.postMessage success: true
 
@@ -52,14 +64,6 @@
           repos = JSON.parse(localStorage.getItem('repos')) or {}
           repos[repo] = data
           localStorage.setItem('repos', JSON.stringify(repos))
-          @totalPR += data.length
-          @updateBadge()
-
-        updateBadge: =>
-          if @totalPR > 0
-            chrome.browserAction.setBadgeText text: "#{@totalPR}"
-          else
-            chrome.browserAction.setBadgeText text: ''
 
       fetcher = new Fetcher
       fetcher.fetch()

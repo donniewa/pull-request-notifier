@@ -29,6 +29,7 @@ class GithubMon
       @triggerFetch()
     else
       @renderHelpView()
+    @promptAddRepo()
     @
 
   renderVersion: ->
@@ -40,7 +41,6 @@ class GithubMon
     @fetchPullRequests()
     @populateRepoList()
     @bindEvents()
-    @promptAddRepo()
 
   fetchRepositories: =>
     @repositories = JSON.parse(localStorage.getItem('repositories')) or []
@@ -50,23 +50,26 @@ class GithubMon
     @repositoryJSON = JSON.parse(localStorage.getItem('repos'))
 
   populateRepoList: ->
-    html = _(@repositoryJSON).map (pullRequests, repo) =>
-      pullRequests = _(pullRequests).filter (pr) =>
-        not _(@hiddenPRs).contains pr.id
-      if pullRequests.length > 0
-        pullRequestsHTML = _(pullRequests).map (pr) =>
-          _.template @pullRequestTemplate,
-            id: pr.id
-            title: pr.title
-            html_url: pr.html_url
-            user: pr.user.login
-            created_at: pr.created_at
-      else
-        pullRequestsHTML = ["<li><p>No PR's</p></li>"]
+    if @repositories.length > 0
+      html = _(@repositoryJSON).map (pullRequests, repo) =>
+        pullRequests = _(pullRequests).filter (pr) =>
+          not _(@hiddenPRs).contains pr.id
+        if pullRequests.length > 0
+          pullRequestsHTML = _(pullRequests).map (pr) =>
+            _.template @pullRequestTemplate,
+              id: pr.id
+              title: pr.title
+              html_url: pr.html_url
+              user: pr.user.login
+              created_at: pr.created_at
+        else
+          pullRequestsHTML = ["<li><p>No PR's</p></li>"]
 
-      _.template @repositoryTemplate,
-        name: repo
-        pullRequests: pullRequestsHTML.join('')
+        _.template @repositoryTemplate,
+          name: repo
+          pullRequests: pullRequestsHTML.join('')
+    else
+      html = ["Add your favorite repositories. In order to do so, just visit the github page of your repo, and launch this popup again!"]
 
     $('#repositories').html html.join('')
 
@@ -92,6 +95,8 @@ class GithubMon
   addCurrentRepo: =>
     @repositories.push @currentRepo
     localStorage.setItem('repositories', JSON.stringify(@repositories))
+    @triggerFetch()
+    @hidePrompt()
 
   hidePR: (event) =>
     id = $(event.target).closest('li').data('id')
@@ -99,7 +104,7 @@ class GithubMon
     localStorage.setItem('hiddenPRs', JSON.stringify(@hiddenPRs))
     @render()
 
-  removeRepository: (event) ->
+  removeRepository: (event) =>
     repo = $(event.target).closest('li').data('id')
     @repositories = _(@repositories).without(repo)
     localStorage.setItem('repositories', JSON.stringify(@repositories))
@@ -107,7 +112,8 @@ class GithubMon
     @repositoryJSON = JSON.parse(localStorage.getItem('repos'))
     delete @repositoryJSON[repo]
     localStorage.setItem('repos', JSON.stringify(@repositoryJSON))
-    @render()
+    @promptAddRepo()
+    @triggerFetch()
 
   renderHelpView: ->
     $('.welcome').show()

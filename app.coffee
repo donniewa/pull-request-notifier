@@ -85,7 +85,7 @@ class GithubMon
     $('.remove').on 'click', @removeRepository
 
   promptAddRepo: ->
-    regexExpression = "^" + @githubHost + '|https://github.com' + "\\/([\\w-\\.]+\\/[\\w-\\.]+)"
+    regexExpression = "^" + @githubHost + "\\/([\\w-\\.]+\\/[\\w-\\.]+)"
     regex = new RegExp regexExpression
     if match = @url.match(regex)
       @currentRepo = match[1]

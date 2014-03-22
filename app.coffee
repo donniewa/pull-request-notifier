@@ -24,6 +24,8 @@ class GithubMon
 
     @renderVersion()
     @accessToken = localStorage.getItem('accessToken')
+    @githubHost  = if localStorage.getItem('githubHost') then localStorage.getItem('githubHost') else 'https://github.com'
+
     if @accessToken
       @render()
       @triggerFetch()
@@ -64,12 +66,14 @@ class GithubMon
               user: pr.user.login
               user_avatar: pr.user.avatar_url
               user_url: pr.user.html_url
+              git_host: @githubHost
               created_at: moment.utc(pr.created_at).fromNow()
         else
           pullRequestsHTML = ["<li><p>No PR's</p></li>"]
 
         _.template @repositoryTemplate,
           name: repo
+          git_host: @githubHost
           pullRequests: pullRequestsHTML.join('')
       $('#repositories').html html.join('')
     else
@@ -81,7 +85,9 @@ class GithubMon
     $('.remove').on 'click', @removeRepository
 
   promptAddRepo: ->
-    if match = @url.match(/^https:\/\/github\.com\/([\w-\.]+\/[\w-\.]+)/)
+    regexExpression = "^" + @githubHost + '|https://github.com' + "\\/([\\w-\\.]+\\/[\\w-\\.]+)"
+    regex = new RegExp regexExpression
+    if match = @url.match(regex)
       @currentRepo = match[1]
       @showPrompt(@currentRepo) unless _(@repositories).contains @currentRepo
     else
@@ -123,6 +129,8 @@ class GithubMon
     $('.save-token').on 'click', =>
       if at = $('#access-token').val()
         localStorage.setItem('accessToken', at)
+        localStorage.setItem('githubHost', gh) if gh = $('#github-host').val()
+        localStorage.setItem('githubApiHost', gah) if gah = $('#github-apihost').val()
         $('.welcome').hide()
         @triggerFetch()
 

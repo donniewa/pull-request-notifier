@@ -5,7 +5,7 @@
     <script type="text/html" id="repository-row">
     <li data-id="{{name}}">
         <p>
-          <a href="https://github.com/{{name}}" target="_blank">{{name}}</a><span class="remove">x</span>
+          <a href="{{git_host}}/{{name}}" target="_blank">{{name}}</a><span class="remove">x</span>
         </p>
         <ul class="prs">{{pullRequests}}</ul>
       </li>
@@ -26,7 +26,7 @@
   <body>
     <header>
       <section>
-        <a href="https://github.com" target="_blank"><img src="github-120.png" width="32" height="32"/></a>
+        <a href="{{git_host}}" target="_blank"><img src="github-120.png" width="32" height="32"/></a>
         <h1>Pull Request Notifier</h1>
         <p class="version"></p>
       </section>
@@ -40,9 +40,23 @@
     <p class='empty'>Just click on this popup under your repo's github page.</p>
     <div class="welcome">
       <p>Welcome stranger!</p>
-      <p>Please enter your <a href="https://github.com/settings/applications" target="_blank">personal access token</a> below to get started:</p>
+      <p>Please enter your <a href="{{git_host}}/settings/applications" target="_blank">personal access token</a> below to get started:</p>
       <p>
         <input type="text" name="access-token" id="access-token" placeholder="Personal Access Token"/>
+      </p>
+      <p>
+        <label for="github-host">Github Host</label>
+      </p>
+      <p>
+        <input type="text" name="github-host" id="github-host" placeholder="https://github.com"/>
+      </p>
+      <p>
+        <label for="github-apihost">Github API Host</label>
+      </p>
+      <p>        
+        <input type="text" name="github-apihost" id="github-apihost" placeholder="https://api.github.com"/>
+      </p>
+      <p>
         <input type="submit" value="Save" class="save-token" />
       </p>
       <small>ps. Your token is needed for accessing the Github API. It will not be shared! You can <a href="https://github.com/nuc-gr/pull-request-notifier" target="_blank">check the source code</a> if you're suspicious (you should!).</small>

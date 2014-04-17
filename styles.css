@@ -60,7 +60,7 @@ a {
   font-size: 16px;
 }
 
-#access-token {
+#access-token, #github-host, #github-apihost {
   width: 290px;
 }
 

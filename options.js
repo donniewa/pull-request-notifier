@@ -1,5 +1,11 @@
 // Saves options to localStorage.
 function save_options() {
+  var githubHostField = document.querySelector("#github-host");
+  localStorage.setItem('githubHost', githubHostField.value);
+
+  var githubApiHostField = document.querySelector("#github-apihost");
+  localStorage.setItem('githubApiHost', githubApiHostField.value);
+
   var accessTokenField = document.querySelector("#access-token");
   localStorage.setItem('accessToken', accessTokenField.value);
 
@@ -16,6 +22,14 @@ function save_options() {
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
+  var githubHost = localStorage.getItem('githubHost');
+  var githubHostField = document.querySelector("#github-host");
+  githubHostField.value = githubHost;
+
+  var githubApiHost = localStorage.getItem('githubApiHost');
+  var githubApiHostField = document.querySelector("#github-apihost");
+  githubApiHostField.value = githubApiHost;
+
   var accessToken = localStorage.getItem('accessToken');
   var accessTokenField = document.querySelector("#access-token");
   accessTokenField.value = accessToken;
